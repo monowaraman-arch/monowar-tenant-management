@@ -179,3 +179,114 @@
     line-height: 1.5;
   }
 }
+
+@layer components {
+  .app-container {
+    --app-container-gutter: 2rem;
+    width: calc(100% - var(--app-container-gutter));
+    max-width: 80rem;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 40rem) {
+    .app-container {
+      --app-container-gutter: 3rem;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .app-container {
+      --app-container-gutter: 4rem;
+    }
+  }
+
+  .motion-page {
+    animation: soft-page-in 0.46s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .motion-card {
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      border-color 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .motion-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgb(15 23 42 / 8%);
+  }
+}
+
+@keyframes soft-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dark .bg-gray-50 {
+  background-color: #03080f;
+}
+
+.dark .bg-white {
+  background-color: #091018;
+}
+
+.dark .bg-white\/95 {
+  background-color: rgb(9 16 24 / 0.95);
+}
+
+.dark .bg-gray-100 {
+  background-color: #1a222b;
+}
+
+.dark .bg-blue-50 {
+  background-color: rgb(0 131 227 / 0.14);
+}
+
+.dark .bg-green-50 {
+  background-color: rgb(0 154 96 / 0.14);
+}
+
+.dark .bg-red-50 {
+  background-color: rgb(212 9 36 / 0.14);
+}
+
+.dark .bg-red-100 {
+  background-color: rgb(212 9 36 / 0.2);
+}
+
+.dark .bg-orange-50,
+.dark .bg-purple-50 {
+  background-color: rgb(134 144 155 / 0.14);
+}
+
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: #212a33;
+}
+
+.dark .text-gray-950,
+.dark .text-gray-900 {
+  color: #eaeff5;
+}
+
+.dark .text-gray-700,
+.dark .text-gray-600 {
+  color: #cbd5e1;
+}
+
+.dark .text-gray-500,
+.dark .text-gray-400 {
+  color: #86909b;
+}
+
+.dark .shadow-sm,
+.dark .shadow-md {
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.24);
+}

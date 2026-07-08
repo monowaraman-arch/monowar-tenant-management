@@ -1,4 +1,4 @@
-import { Phone, DoorOpen, Calendar, DollarSign } from 'lucide-react';
+import { Phone, DoorOpen } from 'lucide-react';
 import { Tenant } from '../contexts/TenantContext';
 import { Badge } from './ui/badge';
 
@@ -35,53 +35,54 @@ export const TenantCard = ({ tenant, onClick }: TenantCardProps) => {
   };
 
   return (
-    <div
+    <button
+      type="button"
       onClick={onClick}
-      className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow cursor-pointer"
+      className="w-full text-left bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-100 transition-all cursor-pointer md:p-5"
     >
-      <div className="flex items-start justify-between mb-3">
-        <div>
-          <h3 className="font-semibold text-gray-900">{tenant.name}</h3>
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="min-w-0">
+          <h3 className="font-semibold text-gray-900 truncate md:text-lg">{tenant.name}</h3>
           <div className="flex items-center gap-1.5 text-sm text-gray-500 mt-1">
-            <Phone className="w-3.5 h-3.5" />
-            <span>{tenant.phone}</span>
+            <Phone className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="truncate">{tenant.phone}</span>
           </div>
         </div>
-        <Badge className={`${getStatusColor(tenant.paymentStatus)} border font-medium`}>
+        <Badge className={`${getStatusColor(tenant.paymentStatus)} border font-medium flex-shrink-0`}>
           {getStatusText(tenant.paymentStatus)}
         </Badge>
       </div>
 
       <div className="grid grid-cols-2 gap-3 mb-3">
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-sm min-w-0">
           <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
             <DoorOpen className="w-4 h-4 text-blue-600" />
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-xs text-gray-500 font-medium">Room/Flat</p>
-            <p className="font-semibold text-gray-900">{tenant.roomNumber}</p>
+            <p className="font-semibold text-gray-900 truncate">{tenant.roomNumber}</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-sm min-w-0">
           <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
-            <DollarSign className="w-4 h-4 text-green-600" />
+            <span className="text-lg font-bold leading-none text-green-600">৳</span>
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-xs text-gray-500 font-medium">Rent</p>
-            <p className="font-semibold text-gray-900">৳{tenant.monthlyRent}</p>
+            <p className="font-semibold text-gray-900 truncate">BDT {tenant.monthlyRent}</p>
           </div>
         </div>
       </div>
 
       <div className="pt-3 border-t border-gray-100">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-3">
           <span className="text-sm text-gray-600 font-medium">Due Amount:</span>
           <span className={`font-bold text-sm ${tenant.dueAmount > 0 ? 'text-red-600' : 'text-green-600'}`}>
-            ৳{tenant.dueAmount}
+            BDT {tenant.dueAmount}
           </span>
         </div>
       </div>
-    </div>
+    </button>
   );
 };

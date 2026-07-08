@@ -6,6 +6,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
+import { AppHeader } from '../components/AppHeader';
 import {
   Select,
   SelectContent,
@@ -17,13 +18,17 @@ import { toast } from 'sonner';
 
 export const AddTenant = () => {
   const navigate = useNavigate();
-  const { addTenant } = useTenants();
+  const { addTenant, tenants } = useTenants();
+  const nextTenantNumber = tenants.length + 1;
 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
+    maritalStatus: 'single' as 'single' | 'married' | 'divorced' | 'widowed',
     roomNumber: '',
-    monthlyRent: '',
+    location: '',
+    monthlyRent: '20000',
     dueAmount: '',
     paymentStatus: 'partial' as 'paid' | 'partial' | 'due',
     entryDate: new Date().toISOString().split('T')[0],
@@ -41,7 +46,10 @@ export const AddTenant = () => {
     addTenant({
       name: formData.name,
       phone: formData.phone,
+      email: formData.email,
+      maritalStatus: formData.maritalStatus,
       roomNumber: formData.roomNumber,
+      location: formData.location,
       monthlyRent: parseFloat(formData.monthlyRent),
       dueAmount: parseFloat(formData.dueAmount) || 0,
       paymentStatus: formData.paymentStatus,
@@ -55,30 +63,29 @@ export const AddTenant = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 py-4 sticky top-0 z-10">
-        <div className="max-w-md mx-auto">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate('/')}
-              className="text-white hover:bg-white/10 -ml-2"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <h1 className="text-xl font-semibold">Add New Tenant</h1>
+      <AppHeader />
+
+      <main className="app-container motion-page py-6 md:py-8">
+        <div className="mb-6 flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => navigate('/')}
+            className="-ml-2"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div>
+            <p className="text-sm font-medium text-blue-700">Tenant Registry</p>
+            <h1 className="text-2xl font-bold text-gray-950 md:text-3xl">Add New Tenant</h1>
           </div>
         </div>
-      </div>
 
-      {/* Form */}
-      <div className="max-w-md mx-auto px-4 py-6">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
             <h2 className="font-semibold text-gray-900 mb-4">Personal Information</h2>
             
-            <div className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <Label htmlFor="name" className="text-gray-700">
                   Full Name <span className="text-red-500">*</span>
@@ -88,7 +95,7 @@ export const AddTenant = () => {
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Enter tenant name"
+                  placeholder={`e.g., Tenant#${nextTenantNumber}`}
                   className="mt-1.5 bg-gray-50 border-gray-200 rounded-xl"
                   required
                 />
@@ -103,10 +110,46 @@ export const AddTenant = () => {
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="+1 (555) 123-4567"
+                  placeholder="e.g., +880 1612-345678"
                   className="mt-1.5 bg-gray-50 border-gray-200 rounded-xl"
                   required
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="email" className="text-gray-700">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="e.g., tenant@example.com"
+                  className="mt-1.5 bg-gray-50 border-gray-200 rounded-xl"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="maritalStatus" className="text-gray-700">
+                  Marital Status
+                </Label>
+                <Select
+                  value={formData.maritalStatus}
+                  onValueChange={(value: 'single' | 'married' | 'divorced' | 'widowed') =>
+                    setFormData({ ...formData, maritalStatus: value })
+                  }
+                >
+                  <SelectTrigger className="mt-1.5 bg-gray-50 border-gray-200 rounded-xl">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="single">Single</SelectItem>
+                    <SelectItem value="married">Married</SelectItem>
+                    <SelectItem value="divorced">Divorced</SelectItem>
+                    <SelectItem value="widowed">Widowed</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
@@ -125,9 +168,9 @@ export const AddTenant = () => {
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-            <h2 className="font-semibold text-gray-900 mb-4">Room & Payment Details</h2>
+            <h2 className="font-semibold text-gray-900 mb-4">Flat & Payment Details</h2>
             
-            <div className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <Label htmlFor="roomNumber" className="text-gray-700">
                   Room/Flat Number <span className="text-red-500">*</span>
@@ -144,6 +187,20 @@ export const AddTenant = () => {
               </div>
 
               <div>
+                <Label htmlFor="location" className="text-gray-700">
+                  Location
+                </Label>
+                <Input
+                  id="location"
+                  type="text"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  placeholder="e.g., Mirpur, Dhaka"
+                  className="mt-1.5 bg-gray-50 border-gray-200 rounded-xl"
+                />
+              </div>
+
+              <div>
                 <Label htmlFor="monthlyRent" className="text-gray-700">
                   Monthly Rent (BDT) <span className="text-red-500">*</span>
                 </Label>
@@ -153,7 +210,7 @@ export const AddTenant = () => {
                   step="0.01"
                   value={formData.monthlyRent}
                   onChange={(e) => setFormData({ ...formData, monthlyRent: e.target.value })}
-                  placeholder="15000.00"
+                  placeholder="20000"
                   className="mt-1.5 bg-gray-50 border-gray-200 rounded-xl"
                   required
                 />
@@ -214,24 +271,24 @@ export const AddTenant = () => {
             </div>
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-2 md:justify-end">
             <Button
               type="button"
               variant="outline"
               onClick={() => navigate('/')}
-              className="flex-1 rounded-xl border-gray-300"
+              className="flex-1 rounded-xl border-gray-300 md:flex-none md:min-w-32"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 rounded-xl"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 rounded-xl md:flex-none md:min-w-40"
             >
               Add Tenant
             </Button>
           </div>
         </form>
-      </div>
+      </main>
     </div>
   );
 };

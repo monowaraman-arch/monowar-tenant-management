@@ -4,7 +4,10 @@ export interface Tenant {
   id: string;
   name: string;
   phone: string;
+  email: string;
+  maritalStatus: 'single' | 'married' | 'divorced' | 'widowed';
   roomNumber: string;
+  location: string;
   monthlyRent: number;
   dueAmount: number;
   paymentStatus: 'paid' | 'partial' | 'due';
@@ -34,47 +37,45 @@ export const TenantProvider = ({ children }: { children: ReactNode }) => {
   const [tenants, setTenants] = useState<Tenant[]>([
     {
       id: '1',
-      name: 'John Smith',
-      phone: '+1 (555) 123-4567',
+      name: 'Tenant#1',
+      phone: '+880 1712-345678',
+      email: 'tenant1@example.com',
+      maritalStatus: 'single',
       roomNumber: 'A-101',
-      monthlyRent: 1200,
+      location: 'Mirpur, Dhaka',
+      monthlyRent: 20000,
       dueAmount: 0,
       paymentStatus: 'paid',
       entryDate: '2024-01-15',
-      notes: 'Excellent tenant, always pays on time.',
+      notes: 'Sample tenant record.',
     },
     {
       id: '2',
-      name: 'Sarah Johnson',
-      phone: '+1 (555) 234-5678',
+      name: 'Tenant#2',
+      phone: '+880 1812-345678',
+      email: 'tenant2@example.com',
+      maritalStatus: 'married',
       roomNumber: 'B-205',
-      monthlyRent: 1500,
-      dueAmount: 1500,
+      location: 'Uttara, Dhaka',
+      monthlyRent: 20000,
+      dueAmount: 10000,
       paymentStatus: 'partial',
       entryDate: '2023-11-20',
-      notes: 'Payment due in 5 days.',
+      notes: 'Sample tenant record with partial payment.',
     },
     {
       id: '3',
-      name: 'Michael Davis',
-      phone: '+1 (555) 345-6789',
+      name: 'Tenant#3',
+      phone: '+880 1912-345678',
+      email: 'tenant3@example.com',
+      maritalStatus: 'single',
       roomNumber: 'C-303',
-      monthlyRent: 1350,
-      dueAmount: 2700,
+      location: 'Dhanmondi, Dhaka',
+      monthlyRent: 20000,
+      dueAmount: 20000,
       paymentStatus: 'due',
       entryDate: '2023-08-10',
-      notes: 'Payment overdue by 15 days. Follow up needed.',
-    },
-    {
-      id: '4',
-      name: 'Emily Wilson',
-      phone: '+1 (555) 456-7890',
-      roomNumber: 'A-102',
-      monthlyRent: 1100,
-      dueAmount: 0,
-      paymentStatus: 'paid',
-      entryDate: '2024-03-01',
-      notes: 'New tenant, recently moved in.',
+      notes: 'Sample tenant record with due rent.',
     },
   ]);
 
